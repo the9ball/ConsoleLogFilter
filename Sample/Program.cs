@@ -1,9 +1,9 @@
-﻿using ConsoleLogFilter;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Sample;
+using the9ball.ConsoleLogFilter;
 
 await Host.CreateDefaultBuilder(args)
     .ConfigureLogging(logging =>

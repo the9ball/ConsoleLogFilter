@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text.Unicode;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 /// <summary>
 /// ログエントリ

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 /// <summary>
 /// Awaitable queue

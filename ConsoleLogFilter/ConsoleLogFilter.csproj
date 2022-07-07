@@ -4,10 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>the9ball.ConsoleLogFilter</RootNamespace>
 
     <!-- for Nuget -->
     <PackageId>the9ball.ConsoleLogFilter</PackageId>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.1.1</VersionPrefix>
     <VersionSuffix>beta</VersionSuffix>
     <PackageVersion>$(Version)</PackageVersion>
     <Authors>Shaula</Authors>

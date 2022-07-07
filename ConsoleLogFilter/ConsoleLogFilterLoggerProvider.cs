@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 /// <summary>
 /// Provide ConsoleLogFilter

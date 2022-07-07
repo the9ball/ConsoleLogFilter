@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 public static class ConsoleLogFilterLoggerExtensions
 {

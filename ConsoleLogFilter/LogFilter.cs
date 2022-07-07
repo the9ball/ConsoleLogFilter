@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 /// <summary>
 /// Filter

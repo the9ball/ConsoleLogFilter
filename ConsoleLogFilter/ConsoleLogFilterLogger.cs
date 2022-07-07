@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace ConsoleLogFilter;
+namespace the9ball.ConsoleLogFilter;
 
 /// <summary>
 /// Logger to filter console logs
