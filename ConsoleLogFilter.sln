@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "Sample\Sample.csproj", "{4ECC4C5D-7846-4FF4-8AA4-5614FFB1BC32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleLogFilter", "ConsoleLogFilter\ConsoleLogFilter.csproj", "{775364AB-2563-4C46-B8F0-F2215CC83606}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonFiles", "CommonFiles", "{01B222FB-65E4-4EC0-A5EA-1DF37FF4B7AE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4ECC4C5D-7846-4FF4-8AA4-5614FFB1BC32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ECC4C5D-7846-4FF4-8AA4-5614FFB1BC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ECC4C5D-7846-4FF4-8AA4-5614FFB1BC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ECC4C5D-7846-4FF4-8AA4-5614FFB1BC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775364AB-2563-4C46-B8F0-F2215CC83606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775364AB-2563-4C46-B8F0-F2215CC83606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775364AB-2563-4C46-B8F0-F2215CC83606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775364AB-2563-4C46-B8F0-F2215CC83606}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B1CC1DF-4BD2-4048-A910-6D16A013CF57}
+	EndGlobalSection
+EndGlobal
