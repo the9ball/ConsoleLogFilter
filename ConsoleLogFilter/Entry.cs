@@ -13,21 +13,29 @@ internal readonly struct Entry
     public readonly int _eventId;
     public readonly string Message;
 
+    /// <summary>
+    /// Reloaded Entry
+    /// </summary>
+    public readonly bool IsReloaded;
+
     public readonly EventId EventId => new(_eventId);
 
     /// <summary></summary>
     public Entry(string categoryName, LogLevel logLevel, EventId eventId, string message)
-        : this(categoryName, logLevel, eventId.Id, message) { }
+        : this(categoryName, logLevel, eventId.Id, message, false) { }
 
     /// <summary></summary>
-    private Entry(string categoryName, LogLevel logLevel, int eventId, string message)
-        => (CategoryName, LogLevel, _eventId, Message) = (categoryName, logLevel, eventId, message);
+    private Entry(string categoryName, LogLevel logLevel, int eventId, string message, bool reloaded)
+        => (CategoryName, LogLevel, _eventId, Message, IsReloaded) = (categoryName, logLevel, eventId, message, reloaded);
 
     /// <summary>
     /// Write to stream
     /// </summary>
     public void Write(Stream stream)
     {
+        // Don't write reloaded entry.
+        if (IsReloaded) return;
+
         stream.WriteByte((byte)LogLevel);
         Write(stream, _eventId);
         Write(stream, Message);
@@ -57,7 +65,7 @@ internal readonly struct Entry
         var eventId = ReadInt(stream);
         var message = ReadString(stream);
         var categoryName = ReadString(stream);
-        return new(categoryName, (LogLevel)logLevel, eventId, message);
+        return new(categoryName, (LogLevel)logLevel, eventId, message, reloaded: true);
     }
 
     private static int ReadInt(Stream stream)
