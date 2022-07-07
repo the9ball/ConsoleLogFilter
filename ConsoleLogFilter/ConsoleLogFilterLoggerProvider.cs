@@ -24,6 +24,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     {
         _innerProvider = innerProvider;
         _logFilter = LogFilter.Create(settingFilePath);
+        _logFilter.OnReload += () => Task.Run(() => ReloadLog(logTemporaryFilePath));
 
         _cancellationTokenSource = new();
         _writingTask = WriteLoop(logTemporaryFilePath, _onEntry, _cancellationTokenSource.Token);
@@ -37,7 +38,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
         try
         {
             System.Diagnostics.Debug.WriteLine(logTemporaryFilePath);
-            using var writeStream = File.Open(logTemporaryFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            using var writeStream = File.Open(logTemporaryFilePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -49,6 +50,21 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
         finally
         {
             File.Delete(logTemporaryFilePath);
+        }
+    }
+
+    /// <summary>
+    /// Reload log
+    /// </summary>
+    private void ReloadLog(string logTemporaryFilePath)
+    {
+        using var s = File.Open(logTemporaryFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+        while (s.Position != s.Length)
+        {
+            var entry = Entry.Read(s);
+            if (!_loggerCache.TryGetValue(entry.CategoryName, out var logger)) continue;
+            logger.Log(entry);
         }
     }
 

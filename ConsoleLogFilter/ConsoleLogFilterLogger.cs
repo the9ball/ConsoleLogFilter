@@ -70,6 +70,12 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
         var message = formatter(state, exception);
         var entry = new Entry(_categoryName, logLevel, eventId, message);
 
+        Log(entry);
+    }
+
+    /// <inheritdoc cref="ILogger.Log"/>
+    public void Log(Entry entry)
+    {
         _readingQueue.Enqueue(entry);
         _outputQueue.Enqueue(entry);
     }
