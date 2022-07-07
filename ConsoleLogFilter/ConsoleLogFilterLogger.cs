@@ -10,6 +10,7 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
     private readonly string _categoryName;
     private readonly ILogger _innerLogger;
     private readonly AwaitableQueue<Entry> _outputQueue;
+    private readonly ILogFilter _logFilter;
 
     private readonly AwaitableQueue<Entry> _readingQueue = new();
 
@@ -17,11 +18,12 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
     private readonly Task _readingTask;
 
     /// <summary></summary>
-    public ConsoleLogFilterLogger(string categoryName, ILogger innerLogger, AwaitableQueue<Entry> outputQueue)
+    public ConsoleLogFilterLogger(string categoryName, ILogger innerLogger, AwaitableQueue<Entry> outputQueue, ILogFilter logFilter)
     {
         _categoryName = categoryName;
         _innerLogger = innerLogger;
         _outputQueue = outputQueue;
+        _logFilter = logFilter;
 
         _cancellationTokenSource = new();
         _readingTask = ReadLoop(_cancellationTokenSource.Token);
@@ -37,7 +39,11 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
             while (!cancellationToken.IsCancellationRequested)
             {
                 var entry = await _readingQueue.DequeueAsync(cancellationToken);
-                _innerLogger.Log(entry.LogLevel, entry.EventId, entry.Message);
+
+                // Filtering message
+                if (_logFilter.Filter(entry.Message) is not { } message) continue;
+
+                _innerLogger.Log(entry.LogLevel, entry.EventId, message);
             }
         }
         catch (OperationCanceledException) { }

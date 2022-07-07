@@ -11,7 +11,7 @@ await Host.CreateDefaultBuilder(args)
         var innerProvider = new ConsoleLoggerProvider(new OptionsMonitor(new()));
 
         logging.ClearProviders();
-        logging.AddConsoleLogFilterLogger(innerProvider);
+        logging.AddConsoleLogFilterLogger(innerProvider, "setting.txt");
     })
     .ConfigureServices((hostContext, services) =>
     {

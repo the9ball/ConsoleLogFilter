@@ -13,9 +13,12 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     private readonly CancellationTokenSource _cancellationTokenSource;
     private readonly Task _writingTask;
 
-    public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, string logTemporaryFilePath)
+    private readonly LogFilter _logFilter;
+
+    public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, string logTemporaryFilePath, string settingFilePath)
     {
         _innerProvider = innerProvider;
+        _logFilter = LogFilter.Create(settingFilePath);
 
         _cancellationTokenSource = new();
         _writingTask = WriteLoop(logTemporaryFilePath, _onEntry, _cancellationTokenSource.Token);
@@ -47,13 +50,15 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     ILogger ILoggerProvider.CreateLogger(string categoryName)
     {
         var innerLogger = _innerProvider.CreateLogger(categoryName);
-        var logger = new ConsoleLogFilterLogger(categoryName, innerLogger, _onEntry);
+        var logger = new ConsoleLogFilterLogger(categoryName, innerLogger, _onEntry, _logFilter);
         _disposables.Add(logger);
         return logger;
     }
 
     void IDisposable.Dispose()
     {
+        _logFilter.Dispose();
+
         _innerProvider.Dispose();
 
         foreach (var d in _disposables) d.Dispose();
