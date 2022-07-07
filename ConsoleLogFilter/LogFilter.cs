@@ -64,7 +64,8 @@ internal class LogFilter : ILogFilter, IDisposable
         }
 
         // Remove parent(..) paths
-        _settingFilePath = Path.GetFullPath(settingFilePath);
+        settingFilePath = Path.GetFullPath(settingFilePath);
+        _settingFilePath = settingFilePath;
 
         var d = Path.GetDirectoryName(settingFilePath) is { } x && !string.IsNullOrEmpty(x) ? x : Directory.GetCurrentDirectory();
         var f = Path.GetFileName(settingFilePath);
