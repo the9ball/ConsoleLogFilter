@@ -4,6 +4,20 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <!-- for Nuget -->
+    <PackageId>the9ball.ConsoleLogFilter</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>beta</VersionSuffix>
+    <PackageVersion>$(Version)</PackageVersion>
+    <Authors>Shaula</Authors>
+    <PackageTags>logging;</PackageTags>
+    <Description>Filtering or Hilighting or Both console logs.</Description>
+    <PackageProjectUrl>https://github.com/the9ball/ConsoleLogFilter</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
