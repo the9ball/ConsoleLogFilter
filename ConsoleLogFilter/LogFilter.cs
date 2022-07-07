@@ -70,7 +70,8 @@ internal class LogFilter : ILogFilter, IDisposable
         var f = Path.GetFileName(settingFilePath);
         _watcher = new(d, f)
         {
-            NotifyFilter = NotifyFilters.LastWrite,
+            NotifyFilter = NotifyFilters.LastWrite
+                | NotifyFilters.CreationTime,
             IncludeSubdirectories = false,
             EnableRaisingEvents = true,
         };
