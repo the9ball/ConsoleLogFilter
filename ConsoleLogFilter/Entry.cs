@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
-using System.Text.Unicode;
 
 namespace the9ball.ConsoleLogFilter;
 
@@ -44,10 +43,8 @@ internal readonly struct Entry
 
     private void Write(Stream stream, string s)
     {
-        Span<byte> buffer = stackalloc byte[s.Length * 3];
-        Utf8.FromUtf16(s.AsSpan(), buffer, out var _, out var writtenBytes);
-        Write(stream, writtenBytes);
-        stream.Write(buffer.Slice(0, writtenBytes));
+        Write(stream, s.Length);
+        stream.Write(MemoryMarshal.Cast<char, byte>(s.AsSpan()));
         stream.Flush();
     }
 
@@ -74,13 +71,10 @@ internal readonly struct Entry
     {
         var length = ReadInt(stream);
 
-        Span<byte> readBuffer = stackalloc byte[length];
+        Span<byte> readBuffer = stackalloc byte[length * 2];
         stream.Read(readBuffer);
-
-        Span<char> encodeBuffer = stackalloc char[length];
-        Utf8.ToUtf16(readBuffer, encodeBuffer, out var _, out var writtenLength);
-
-        return encodeBuffer.Slice(0, writtenLength).ToString();
+        Span<char> chars = MemoryMarshal.Cast<byte, char>(readBuffer);
+        return chars.ToString();
     }
 }
 
