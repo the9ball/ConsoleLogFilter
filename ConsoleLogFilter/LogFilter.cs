@@ -89,15 +89,19 @@ internal class LogFilter : ILogFilter, IDisposable
     /// </summary>
     private void Read()
     {
-        string?[] lines = new string?[2];
-        using (var s = File.Open(_settingFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        using (var r = new StreamReader(s))
+        try
         {
-            lines[0] = r.ReadLine();
-            lines[1] = r.ReadLine();
-        }
+            string?[] lines = new string?[2];
+            using (var s = File.Open(_settingFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var r = new StreamReader(s))
+            {
+                lines[0] = r.ReadLine();
+                lines[1] = r.ReadLine();
+            }
 
-        if (Read(lines)) OnReload?.Invoke();
+            if (Read(lines)) OnReload?.Invoke();
+        }
+        catch (IOException) { } // Ignore reading exception.
     }
 
     /// <summary>
