@@ -47,7 +47,7 @@ internal class LogFilter : ILogFilter, IDisposable
     /// <remarks>
     /// TODO: color setting
     /// </remarks>
-    const string _hilightPattern = "{FC=Red}$&{/FC}"; // TODO: coloring
+    const string _hilightPattern = "\u001b[47m\u001b[30m$&\u001b[0m";
 
     /// <summary>
     /// Setting file reloaded.
