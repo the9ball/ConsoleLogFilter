@@ -2,6 +2,9 @@
 
 namespace ConsoleLogFilter;
 
+/// <summary>
+/// Provide ConsoleLogFilter
+/// </summary>
 internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
 {
     private readonly List<IDisposable> _disposables = new();
@@ -15,6 +18,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
 
     private readonly LogFilter _logFilter;
 
+    /// <summary></summary>
     public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, string logTemporaryFilePath, string settingFilePath)
     {
         _innerProvider = innerProvider;
@@ -47,6 +51,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
         }
     }
 
+    /// <inheritdoc/>
     ILogger ILoggerProvider.CreateLogger(string categoryName)
     {
         var innerLogger = _innerProvider.CreateLogger(categoryName);
@@ -55,6 +60,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
         return logger;
     }
 
+    /// <inheritdoc/>
     void IDisposable.Dispose()
     {
         _logFilter.Dispose();
