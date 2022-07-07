@@ -96,7 +96,8 @@ internal class LogFilter : ILogFilter, IDisposable
 
         try
         {
-            while (true) // Retry read
+            const int Retry = 4;
+            for (var i = Retry; i > 0; i--) // Retry read
             {
                 try
                 {
@@ -114,6 +115,8 @@ internal class LogFilter : ILogFilter, IDisposable
                 }
                 catch (IOException) { } // Ignore reading exception.
             }
+
+            throw new FileNotFoundException(_settingFilePath);
         }
         finally
         {
