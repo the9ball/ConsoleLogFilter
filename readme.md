@@ -13,9 +13,11 @@ Getting Started
 ---
 For Console application [.NET Generic Host](https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host).
 
-1. Clone this repository.
-2. Add project reference for YourApplication.
-3. Call `AddConsoleLogFilterLogger` in `ConfigureLogging`.
+1. Add package reference for YourApplication.
+  ```
+  <PackageReference Include="the9ball.ConsoleLogFilter" Version="{input newer}" />
+  ```
+2. Call `AddConsoleLogFilterLogger` in `ConfigureLogging`.
     ```
     .ConfigureLogging(logging =>
     {
@@ -25,13 +27,13 @@ For Console application [.NET Generic Host](https://docs.microsoft.com/en-us/dot
         logging.AddConsoleLogFilterLogger(innerProvider, "../../../../setting.txt");
     })
     ```
-4. Create setting file.(e.g. `setting.txt`)
+3. Create setting file.(e.g. `setting.txt`)
     ```
     First-line is filter. Excluding logs if not match. Regular expression.
     Second-line is hilight. Regular expression.
     ```
-5. Run application.
-6. Edit setting file.(optional)
+4. Run application.
+5. Edit setting file.(optional)
 
 License
 ---
