@@ -76,7 +76,7 @@ internal class LogFilter : ILogFilter, IDisposable
             IncludeSubdirectories = false,
             EnableRaisingEvents = true,
         };
-        _watcher.Changed += (_, __) => Read();
+        _watcher.Changed += (_, __) => Task.Run(Read);
     }
 
     /// <inheritdoc cref="IDisposable.Dispose"/>
@@ -85,24 +85,40 @@ internal class LogFilter : ILogFilter, IDisposable
         _watcher.Dispose();
     }
 
+    private readonly SemaphoreSlim _readingSemaphore = new(1);
+
     /// <summary>
     /// Read setting file.
     /// </summary>
     private void Read()
     {
+        if (!_readingSemaphore.Wait(0)) return;
+
         try
         {
-            string?[] lines = new string?[2];
-            using (var s = File.Open(_settingFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (var r = new StreamReader(s))
+            while (true) // Retry read
             {
-                lines[0] = r.ReadLine();
-                lines[1] = r.ReadLine();
-            }
+                try
+                {
+                    string?[] lines = new string?[2];
+                    using (var s = File.Open(_settingFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var r = new StreamReader(s))
+                    {
+                        lines[0] = r.ReadLine();
+                        lines[1] = r.ReadLine();
+                    }
 
-            if (Read(lines)) OnReload?.Invoke();
+                    if (Read(lines)) OnReload?.Invoke();
+
+                    return; // Return finish reading
+                }
+                catch (IOException) { } // Ignore reading exception.
+            }
         }
-        catch (IOException) { } // Ignore reading exception.
+        finally
+        {
+            _readingSemaphore.Release();
+        }
     }
 
     /// <summary>
