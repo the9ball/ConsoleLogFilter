@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace ConsoleLogFilter;
 
@@ -7,7 +8,7 @@ namespace ConsoleLogFilter;
 /// </summary>
 internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
 {
-    private readonly List<IDisposable> _disposables = new();
+    private readonly ConcurrentDictionary<string, ConsoleLogFilterLogger> _loggerCache = new();
 
     private readonly ILoggerProvider _innerProvider;
 
@@ -56,7 +57,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     {
         var innerLogger = _innerProvider.CreateLogger(categoryName);
         var logger = new ConsoleLogFilterLogger(categoryName, innerLogger, _onEntry, _logFilter);
-        _disposables.Add(logger);
+        _loggerCache.TryAdd(categoryName, logger);
         return logger;
     }
 
@@ -67,8 +68,8 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
 
         _innerProvider.Dispose();
 
-        foreach (var d in _disposables) d.Dispose();
-        _disposables.Clear();
+        foreach (var d in _loggerCache.Values) d.Dispose();
+        _loggerCache.Clear();
 
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();

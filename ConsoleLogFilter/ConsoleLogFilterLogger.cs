@@ -50,7 +50,7 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
     }
 
     /// <inheritdoc/>
-    void IDisposable.Dispose()
+    public void Dispose()
     {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
