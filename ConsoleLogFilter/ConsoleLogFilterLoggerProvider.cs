@@ -60,6 +60,8 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     {
         using var s = File.Open(logTemporaryFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
+        Console.Clear();
+
         while (s.Position != s.Length)
         {
             var entry = Entry.Read(s);
