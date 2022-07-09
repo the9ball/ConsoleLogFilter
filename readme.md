@@ -36,6 +36,10 @@ For Console application [.NET Generic Host](https://docs.microsoft.com/en-us/dot
 4. Run application.
 5. Edit setting file.(optional)
 
+Nuget page
+---
+the9ball.ConsoleLogFilter : https://www.nuget.org/packages/the9ball.ConsoleLogFilter/
+
 License
 ---
 This library is licensed under the MIT License.
