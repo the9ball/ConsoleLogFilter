@@ -32,6 +32,7 @@ For Console application [.NET Generic Host](https://docs.microsoft.com/en-us/dot
     First-line is filter. Excluding logs if not match. Regular expression.
     Second-line is hilight. Regular expression.
     ```
+    - More information : [.NET regular expressions](https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions)
 4. Run application.
 5. Edit setting file.(optional)
 
