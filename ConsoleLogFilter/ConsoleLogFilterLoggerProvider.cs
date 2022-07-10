@@ -23,7 +23,7 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, ConsoleLogFilterLoggerConfig configuration)
     {
         _innerProvider = innerProvider;
-        _logFilter = LogFilter.Create(configuration.settingFilePath);
+        _logFilter = LogFilter.Create(configuration);
 
         configuration.logTemporaryFilePath ??= Path.GetTempFileName();
         _logFilter.OnReload += () => Task.Run(() => ReloadLog(configuration.logTemporaryFilePath));

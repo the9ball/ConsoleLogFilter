@@ -13,7 +13,7 @@ await Host.CreateDefaultBuilder(args)
         logging.ClearProviders();
         logging.AddConsoleLogFilterLogger(
             innerProvider,
-            new ConsoleLogFilterLoggerConfig("../../../../setting.txt")
+            new ConsoleLogFilterLoggerConfig("../../../../setting.txt", characterColor: Color.Red, backgroundColor: Color.Cyan)
             );
     })
     .ConfigureServices((hostContext, services) =>

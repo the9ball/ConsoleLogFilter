@@ -25,9 +25,9 @@ internal class LogFilter : ILogFilter, IDisposable
     /// <summary>
     /// Create <see cref="LogFilter"/> instance.
     /// </summary>
-    public static LogFilter Create(string settingFilePath)
+    public static LogFilter Create(ConsoleLogFilterLoggerConfig configuration)
     {
-        var logFilter = new LogFilter(settingFilePath);
+        var logFilter = new LogFilter(configuration);
         logFilter.Read();
         return logFilter;
     }
@@ -41,13 +41,12 @@ internal class LogFilter : ILogFilter, IDisposable
     private string? _hilightString;
     private Regex? _hilightRegex;
 
+    private readonly string _hilightPattern;
+
     /// <summary>
-    /// Replacement pattern to hilighting
+    /// Replacement pattern to hilighting format.
     /// </summary>
-    /// <remarks>
-    /// TODO: color setting
-    /// </remarks>
-    const string _hilightPattern = "\u001b[47m\u001b[30m$&\u001b[0m";
+    const string HilightPatternFormat = "\u001b[4{0}m\u001b[3{1}m$&\u001b[0m";
 
     /// <summary>
     /// Setting file reloaded.
@@ -55,8 +54,9 @@ internal class LogFilter : ILogFilter, IDisposable
     public event Action? OnReload;
 
     /// <summary></summary>
-    private LogFilter(string settingFilePath)
+    private LogFilter(ConsoleLogFilterLoggerConfig config)
     {
+        var settingFilePath = config.settingFilePath;
         if (!Path.IsPathRooted(settingFilePath))
         {
             // To full path
@@ -66,6 +66,8 @@ internal class LogFilter : ILogFilter, IDisposable
         // Remove parent(..) paths
         settingFilePath = Path.GetFullPath(settingFilePath);
         _settingFilePath = settingFilePath;
+
+        _hilightPattern = string.Format(HilightPatternFormat, (int)config.backgroundColor, (int)config.characterColor);
 
         var d = Path.GetDirectoryName(settingFilePath) is { } x && !string.IsNullOrEmpty(x) ? x : Directory.GetCurrentDirectory();
         var f = Path.GetFileName(settingFilePath);
