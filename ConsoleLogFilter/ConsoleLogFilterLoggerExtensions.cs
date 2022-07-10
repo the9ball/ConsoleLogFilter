@@ -18,6 +18,13 @@ public static class ConsoleLogFilterLoggerExtensions
     /// Add <see cref="ConsoleLogFilterLoggerProvider"/>
     /// </summary>
     [Obsolete("Use ConsoleLogFilterLoggerConfig")]
+    public static ILoggingBuilder AddConsoleLogFilterLogger(this ILoggingBuilder builder, ILoggerProvider innerProvider, string settingFilePath, string logTemporaryFilePath)
+        => builder.AddConsoleLogFilterLogger(innerProvider, new ConsoleLogFilterLoggerConfig(settingFilePath, logTemporaryFilePath: logTemporaryFilePath));
+
+    /// <summary>
+    /// Add <see cref="ConsoleLogFilterLoggerProvider"/>
+    /// </summary>
+    [Obsolete("Use ConsoleLogFilterLoggerConfig")]
     public static ILoggingBuilder AddConsoleLogFilterLogger(this ILoggingBuilder builder, ILoggerProvider innerProvider, string settingFilePath)
         => builder.AddConsoleLogFilterLogger(innerProvider, new ConsoleLogFilterLoggerConfig(settingFilePath, Path.GetTempFileName()));
 }
