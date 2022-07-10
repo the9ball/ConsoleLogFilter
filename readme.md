@@ -24,7 +24,7 @@ For Console application [.NET Generic Host](https://docs.microsoft.com/en-us/dot
         var innerProvider = new ConsoleLoggerProvider(new OptionsMonitor(new()));
 
         logging.ClearProviders();
-        logging.AddConsoleLogFilterLogger(innerProvider, "../../../../setting.txt");
+        logging.AddConsoleLogFilterLogger(innerProvider, new ConsoleLogFilterLoggerConfig("../../../../setting.txt"));
     })
     ```
 3. Create setting file.(e.g. `setting.txt`)
