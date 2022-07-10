@@ -20,14 +20,16 @@ internal class ConsoleLogFilterLoggerProvider : ILoggerProvider
     private readonly LogFilter _logFilter;
 
     /// <summary></summary>
-    public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, string logTemporaryFilePath, string settingFilePath)
+    public ConsoleLogFilterLoggerProvider(ILoggerProvider innerProvider, ConsoleLogFilterLoggerConfig configuration)
     {
         _innerProvider = innerProvider;
-        _logFilter = LogFilter.Create(settingFilePath);
-        _logFilter.OnReload += () => Task.Run(() => ReloadLog(logTemporaryFilePath));
+        _logFilter = LogFilter.Create(configuration.settingFilePath);
+
+        configuration.logTemporaryFilePath ??= Path.GetTempFileName();
+        _logFilter.OnReload += () => Task.Run(() => ReloadLog(configuration.logTemporaryFilePath));
 
         _cancellationTokenSource = new();
-        _writingTask = WriteLoop(logTemporaryFilePath, _onEntry, _cancellationTokenSource.Token);
+        _writingTask = WriteLoop(configuration.logTemporaryFilePath, _onEntry, _cancellationTokenSource.Token);
     }
 
     /// <summary>
