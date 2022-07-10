@@ -8,7 +8,7 @@
 
     <!-- for Nuget -->
     <PackageId>the9ball.ConsoleLogFilter</PackageId>
-    <VersionPrefix>0.1.4</VersionPrefix>
+    <VersionPrefix>0.2.0</VersionPrefix>
     <VersionSuffix>beta</VersionSuffix>
     <PackageVersion>$(Version)</PackageVersion>
     <Authors>Shaula</Authors>
