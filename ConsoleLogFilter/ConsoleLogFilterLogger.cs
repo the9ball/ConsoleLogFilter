@@ -68,6 +68,7 @@ internal class ConsoleLogFilterLogger : ILogger, IDisposable
     void ILogger.Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         var message = formatter(state, exception);
+        if (exception is { } ex) message += Environment.NewLine + exception.ToString();
         var entry = new Entry(_categoryName, logLevel, eventId, message);
 
         Log(entry);
