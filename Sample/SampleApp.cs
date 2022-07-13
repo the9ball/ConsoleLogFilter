@@ -14,18 +14,48 @@ internal class SampleApp : IHostedService
 
     public SampleApp(ILogger<SampleApp> logger) => _logger = logger;
 
+    static string[] chars = new[]
+    {
+        "🤔",
+        "あ",
+        "r",
+        "5",
+    };
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var random = new Random();
+
+        static string LongString(Random r)
+        {
+            var len = r.Next(64, 128);
+            return string.Join("🍞", Enumerable.Repeat(0, len).Select(_ => chars[r.Next(chars.Length)]));
+        }
 
         try
         {
             while (!cancellationToken.IsCancellationRequested)
             {
                 var logLevel = LogLevels[random.Next(LogLevels.Length)];
-                Console.WriteLine("LogLevel -> " + logLevel);
-                _logger.Log(logLevel, "message {0}", logLevel);
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                //Console.WriteLine("LogLevel -> " + logLevel);
+                _logger.Log(logLevel, "message {0} : {1}", logLevel, LongString(random));
+                await Task.Delay(TimeSpan.FromSeconds(0.1), cancellationToken);
+
+                try
+                {
+                    try
+                    {
+                        throw new Exception("test");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("hoge", ex);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "exception");
+                }
             }
         }
         catch (OperationCanceledException) { }
