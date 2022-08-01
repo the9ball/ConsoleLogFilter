@@ -9,7 +9,7 @@
     <!-- for Nuget -->
     <PackageId>the9ball.ConsoleLogFilter</PackageId>
     <VersionPrefix>0.2.1</VersionPrefix>
-    <VersionSuffix>beta</VersionSuffix>
+    <VersionSuffix>alpha</VersionSuffix>
     <PackageVersion>$(Version)</PackageVersion>
     <Authors>Shaula</Authors>
     <PackageTags>logging;</PackageTags>
@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
   </ItemGroup>
 
 </Project>
