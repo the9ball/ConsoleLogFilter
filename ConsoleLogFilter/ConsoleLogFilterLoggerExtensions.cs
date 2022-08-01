@@ -22,8 +22,11 @@ public static class ConsoleLogFilterLoggerExtensions
             if (innerProvider.GetType().GetCustomAttributes(typeof(ProviderAliasAttribute), true).FirstOrDefault() is ProviderAliasAttribute pa && pa is not null)
             {
                 builder.Services.AddSingleton<IConfigureOptions<LoggerFilterOptions>, LoggingProviderAliasTracer>(
-                    serviceProvier => new LoggingProviderAliasTracer(pa, typeof(ConsoleLogFilterLoggerProvider).FullName!, configuration));
+                    serviceProvier => new LoggingProviderAliasTracer(pa.Alias, typeof(ConsoleLogFilterLoggerProvider).FullName!, configuration));
             }
+
+            builder.Services.AddSingleton<IConfigureOptions<LoggerFilterOptions>, LoggingProviderAliasTracer>(
+                serviceProvier => new LoggingProviderAliasTracer(innerProvider.GetType().FullName!, typeof(ConsoleLogFilterLoggerProvider).FullName!, configuration));
         }
 
         builder.Services.Add(ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLogFilterLoggerProvider>(x => new ConsoleLogFilterLoggerProvider(innerProvider, loggerConfiguration)));

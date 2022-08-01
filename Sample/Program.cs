@@ -10,11 +10,15 @@ await Host.CreateDefaultBuilder(args)
         var innerProvider = new OriginalLoggerProvider();
 
         logging.ClearProviders();
+#if true
         logging.AddConsoleLogFilterLogger(
             innerProvider,
             new ConsoleLogFilterLoggerConfig("../../../../setting.txt", characterColor: Color.Red, backgroundColor: Color.Cyan),
             context.Configuration
             );
+#else
+        logging.Services.AddSingleton<ILoggerProvider>(innerProvider);
+#endif
     })
     .ConfigureServices((hostContext, services) =>
     {

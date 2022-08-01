@@ -9,20 +9,20 @@ namespace the9ball.ConsoleLogFilter;
 /// </summary>
 internal class LoggingProviderAliasTracer : IConfigureOptions<LoggerFilterOptions>
 {
-    private readonly ProviderAliasAttribute _providerAlias;
+    private readonly string _providerName;
     private readonly string _targetTypeName;
     private readonly IConfiguration _configuration;
 
-    public LoggingProviderAliasTracer(ProviderAliasAttribute providerAlias, string targetTypeName, IConfiguration configuration)
+    public LoggingProviderAliasTracer(string providerName, string targetTypeName, IConfiguration configuration)
     {
-        _providerAlias = providerAlias;
+        _providerName = providerName;
         _targetTypeName = targetTypeName;
         _configuration = configuration;
     }
 
     void IConfigureOptions<LoggerFilterOptions>.Configure(LoggerFilterOptions options)
     {
-        var logLevels = _configuration.GetSection("Logging").GetSection(_providerAlias.Alias).GetSection("LogLevel");
+        var logLevels = _configuration.GetSection("Logging").GetSection(_providerName).GetSection("LogLevel");
         foreach (var l in logLevels.GetChildren())
         {
             var key = l.Key != "Default" ? l.Key : null;
